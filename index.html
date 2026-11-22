@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>South Island family trip</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #20303a; background: #f7f8f6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(100% - 32px, 900px); margin: 32px auto 56px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.15; margin-bottom: 8px; }
+    .intro { color: #53636b; margin-bottom: 20px; }
+    .bookings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 24px; }
+    .booking-card { border: 1px solid #d5dfda; border-radius: 14px; padding: 16px; background: #fff; }
+    .booking-card h2 { font-size: 1.15rem; margin: 0 0 12px; }
+    .booking-card h3 { font-size: 1rem; margin: 14px 0 4px; }
+    .booking-card p { margin: 0 0 8px; }
+    .booking-card .booking-note { color: #596a70; font-size: .86rem; margin: 10px 0 0; }
+    .booking-meta { color: #53636b; font-size: .92rem; }
+    .map-wrap { width: 100%; overflow: hidden; }
+    svg { display: block; width: 100%; height: auto; overflow: hidden; }
+    .land { fill: #e1e9e5; stroke: #9aaba5; stroke-width: 1.4; }
+    .route { fill: none; stroke: #187b83; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+    .stop { fill: #187b83; stroke: #fff; stroke-width: 2.5; }
+    .stop-number { fill: #fff; font: 600 11px system-ui, sans-serif; text-anchor: middle; pointer-events: none; }
+    .label { fill: #20303a; font: 600 13px system-ui, sans-serif; paint-order: stroke; stroke: #f7f8f6; stroke-width: 4px; stroke-linejoin: round; }
+    .distance-label { fill: #20303a; font: 600 11px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+    .distance-bg { fill: #fff; stroke: #187b83; stroke-width: 1; }
+    .island-label { fill: #64756f; font: 500 12px system-ui, sans-serif; letter-spacing: .08em; }
+    .map-stop:focus .stop { stroke: #f3a63b; stroke-width: 4; }
+    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: #596a70; font-size: .9rem; }
+    .route-key { width: 22px; border-top: 3px solid #187b83; }
+    .stop-key { width: 10px; height: 10px; border-radius: 50%; background: #187b83; margin-left: 10px; }
+    .stop-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .stop-list button { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; border: 1px solid #bcc9c4; border-radius: 12px; padding: 8px 12px; background: #fff; color: #20303a; font: inherit; text-align: left; cursor: pointer; }
+    .stop-date { color: #596a70; font-size: .78rem; line-height: 1.3; }
+    .stop-list button:hover, .stop-list button:focus-visible { border-color: #187b83; outline: 2px solid #187b83; outline-offset: 2px; }
+    .stop-list button[aria-pressed="true"] { background: #187b83; border-color: #187b83; color: #fff; }
+    .stop-list button[aria-pressed="true"] .stop-date { color: #e4f3f1; }
+    .detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 20px; align-items: start; border-top: 1px solid #d5dfda; padding-top: 20px; }
+    .detail h2 { margin: 0 0 8px; font-size: 1.35rem; }
+    .detail p { margin-bottom: 12px; }
+    .detail ul { padding-left: 20px; margin: 0; }
+    .detail li + li { margin-top: 4px; }
+    .photo { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; background: #e1e9e5; }
+    .credit { color: #596a70; font-size: .8rem; margin-top: 6px; }
+    a { color: #126c74; }
+    .route-note { color: #596a70; font-size: .85rem; margin: 0; }
+    @media (max-width: 640px) {
+      main { width: min(100% - 24px, 900px); margin-top: 20px; }
+      .bookings { grid-template-columns: 1fr; }
+      .detail { grid-template-columns: 1fr; }
+      .photo { max-height: 280px; }
+      .label { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>South Island family trip</h1>
+  <p class="intro">Suggested Christchurch arrival to Queenstown departure route. Numbers follow the visit order, including the return to Queenstown after Te Anau. Select a numbered map point or stop below for family-friendly ideas and a photo.</p>
+  <section class="bookings" aria-label="Booked flights and car rental">
+    <article class="booking-card">
+      <h2>Booked flights</h2>
+      <h3>Melbourne → Christchurch</h3>
+      <p>Sunday, 28 February 2027 · 09:10–14:30</p>
+      <p class="booking-meta">Qantas QF167 · Direct · 3h 20m · Economy</p>
+      <h3>Queenstown → Melbourne</h3>
+      <p>Monday, 15 March 2027 · 14:05–15:40</p>
+      <p class="booking-meta">Virgin Australia VA146 · Direct · 3h 35m · Economy</p>
+    </article>
+    <article class="booking-card">
+      <h2>Hertz car rental</h2>
+      <p><strong>Vehicle:</strong> Intermediate SUV Hybrid (J2), Toyota RAV4 Hybrid or similar</p>
+      <p><strong>Pick up:</strong> Christchurch Airport · Sunday, 28 February 2027</p>
+      <p><strong>Drop off:</strong> Queenstown Airport · Monday, 15 March 2027</p>
+      <p><strong>Included:</strong> Infant seat, unlimited kilometres and Loss Damage Waiver</p>
+      <p><strong>Estimated total:</strong> NZ$1,774.45, due at rental</p>
+      <p class="booking-note">The estimate may change if the booking is amended. Hertz notes a 2.53% credit-card processing fee may apply. Pickup and drop-off times are omitted here because the reservation was updated.</p>
+    </article>
+  </section>
+  <div class="map-wrap">
+    <svg id="trip-map" viewBox="0 0 720 560" role="img" aria-labelledby="map-title map-desc">
+      <title id="map-title">South Island road trip map</title>
+      <desc id="map-desc">Route from Christchurch along the West Coast to Haast, Wānaka, Aoraki and Lake Tekapo, then Queenstown and Te Anau, returning to Queenstown.</desc>
+    </svg>
+  </div>
+  <div class="legend"><span class="route-key"></span>Suggested route <span class="stop-key"></span>Overnight stop</div>
+  <p class="route-note">Route lines are schematic, not turn-by-turn directions. Distances are approximate road kilometres; the Te Anau return leg uses the same road as the outbound leg.</p>
+  <nav class="stop-list" aria-label="Choose a stop for details"></nav>
+  <section id="stop-details" class="detail" aria-live="polite" aria-atomic="true"></section>
+</main>
+<script type="module">
+const width = 720, height = 560;
+const svg = document.getElementById('trip-map');
+const d3 = await import('https://esm.sh/d3-geo@3.1.1');
+const topo = await import('https://esm.sh/topojson-client@3.1.0');
+const world = await import('https://esm.sh/@d3-maps/atlas@1.0.0/world/countries/countries-110m');
+const countries = topo.feature(world.default, world.default.objects.features).features;
+const nz = countries.find(feature => feature.properties.id === 'NZL');
+const projection = d3.geoMercator().center([170.25, -44.15]).scale(4200).translate([width / 2, height / 2]);
+const path = d3.geoPath(projection);
+const ns = 'http://www.w3.org/2000/svg';
+const add = (tag, attrs, parent = svg) => {
+  const element = document.createElementNS(ns, tag);
+  for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, value);
+  parent.appendChild(element);
+  return element;
+};
+add('path', { d: path(nz), class: 'land' });
+const stops = [
+  {name:'Christchurch', xy:[172.6362,-43.5321], dx:12, dy:3, anchor:'start', dateRange:'Sun 28 Feb – Tue 2 Mar', nights:'2 nights', detail:'Arrive Sunday at 14:30 and keep the afternoon easy. On Monday, combine the Botanic Gardens, Riverside Market and Gondola; keep the evening free for dinner with your cousin if arranged. Head to Hokitika on Tuesday.', sights:['Mon 1 Mar morning: Botanic Gardens, Hagley Park and an easy Avon River stroll','Mon 1 Mar lunch: Riverside Market','Mon 1 Mar afternoon: Christchurch Gondola, weather permitting; allow 1–2 hours','Keep Monday evening free for cousin dinner','Tue 2 Mar: Depart for Hokitika'], photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NZ_-_Christchurch_Botanic_Gardens_-_Avon_River.jpg/1024px-NZ_-_Christchurch_Botanic_Gardens_-_Avon_River.jpg', photoAlt:'The Avon River winding through Christchurch Botanic Gardens', credit:'Wikimedia Commons', creditUrl:'https://commons.wikimedia.org/wiki/File:NZ_-_Christchurch_Botanic_Gardens_-_Avon_River.jpg'},
+  {name:'Hokitika', xy:[170.97,-42.7167], dx:-12, dy:-8, anchor:'end', dateRange:'Tue 2 – Wed 3 Mar', nights:'1 night', detail:'A relaxed West Coast town and a handy first stop after crossing Arthur’s Pass.', sights:['Hokitika beach and the driftwood sign','Hokitika Gorge and its swing bridges','Browse the town’s pounamu and arts shops'], photo:'https://sponsoredinteractive.stuff.co.nz/an-epic-west-coast-road-trip/assets/uTdDD5Ajuy/hokitika-gorge-view-4031x2620.jpeg', photoAlt:'Turquoise water and a suspension bridge at Hokitika Gorge', credit:'Stuff · West Coast road trip', creditUrl:'https://sponsoredinteractive.stuff.co.nz/an-epic-west-coast-road-trip/index.html'},
+  {name:'Franz Josef', xy:[170.181,-43.387], dx:12, dy:-8, anchor:'start', dateRange:'Wed 3 – Thu 4 Mar', nights:'1 night', detail:'A rainforest-and-glacier stop. Glacier access and walks can change with conditions, so check local updates before setting out.', sights:['Franz Josef Glacier valley viewpoints','Short rainforest walks near the village','Lake Matheson, if time and weather suit'], photo:'https://www.newzealand.com/assets/externally-managed-assets/tbd-assets/tbd-folder-10100697/img-1742369179-4228-1678937-tbd-asset__aWxvdmVrZWxseQo_CropResizeWzk0MCw1MzAsOTAsImpwZyJd.jpg', photoAlt:'Franz Josef Glacier in a steep West Coast valley', credit:'100% Pure New Zealand', creditUrl:'https://www.newzealand.com/in/plan/business/10-days-ultimate-new-zealand-south-island-premium-small-group-tour/'},
+  {name:'Haast', xy:[169.041,-43.881], dx:-12, dy:14, anchor:'end', dateRange:'Thu 4 – Fri 5 Mar', nights:'1 night', detail:'A quiet overnight break between the glacier coast and Wānaka; services are limited, so plan fuel and meals ahead.', sights:['Thunder Creek Falls beside the highway','Short forest walks along Haast Pass','Haast visitor centre for local nature and history'], photo:'https://images.squarespace-cdn.com/content/v1/5ba5ef397eb88c39aabb2033/af06e47c-6150-481a-8d5c-ad3774defc97/Thunder%2BCreek%2BFalls%2B2025.jpg?format=750w', photoAlt:'Thunder Creek Falls in a green Haast Pass forest', credit:'A Great Backyard · Corin Walker Bain', creditUrl:'https://www.agreatbackyard.co.nz/west-coast/thunder-creek-falls'},
+  {name:'Wānaka', xy:[169.132,-44.694], dx:-12, dy:-10, anchor:'end', dateRange:'Fri 5 – Sun 7 Mar', nights:'2 nights', detail:'A lakeside pause with time to slow down before the alpine stops.', sights:['Lakefront and the Wānaka Tree','Easy lakeside paths and playground breaks','Puzzling World for a family-friendly indoor option'], photo:'https://images.unsplash.com/photo-1706285312199-eb52128d28a5?auto=format&fit=crop&w=1200&q=75', photoAlt:'The Wānaka Tree standing in the lake with mountains behind it', credit:'Unsplash · Richard Lumborg', creditUrl:'https://unsplash.com/photos/a-lone-tree-in-the-middle-of-a-lake-RlpfNahU8TI'},
+  {name:'Aoraki / Mt Cook', xy:[170.096,-43.7345], dx:13, dy:-10, anchor:'start', dateRange:'Sun 7 – Mon 8 Mar', nights:'1 night', detail:'A mountain-village stay for big alpine views and short, weather-dependent walks.', sights:['Aoraki/Mt Cook village viewpoints','Tasman Glacier viewpoint','Short sections of the valley tracks, checking current conditions first'], photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mt_Cook_LC0247.jpg/800px-Mt_Cook_LC0247.jpg', photoAlt:'Aoraki/Mount Cook rising above a glacial valley', credit:'Wikimedia Commons', creditUrl:'https://commons.wikimedia.org/wiki/Aoraki/Mount_Cook'},
+  {name:'Lake Tekapo', xy:[170.5118,-44.0047], dx:-12, dy:15, anchor:'end', dateRange:'Mon 8 – Tue 9 Mar', nights:'1 night', detail:'A scenic lake stop; stay into the evening if you want to enjoy the dark-sky setting.', sights:['Church of the Good Shepherd and the lakeshore','Lake Tekapo viewpoints','Stargazing, weather permitting'], photo:'https://images.unsplash.com/photo-1672801719819-88449880e71c?auto=format&fit=crop&fm=jpg&ixlib=rb-4.0.3&q=75&w=1200', photoAlt:'The Church of the Good Shepherd beside turquoise Lake Tekapo', credit:'Unsplash', creditUrl:'https://unsplash.com/photos/a-house-on-a-small-island-in-the-middle-of-a-lake-SJB_tkCSCQA'},
+  {name:'Queenstown', xy:[168.6626,-45.0312], dx:12, dy:3, anchor:'start', dateRange:'Tue 9 – Fri 12 Mar', nights:'3 nights', detail:'Enjoy the lake and choose a couple of easy outings before heading to Te Anau.', sights:['Queenstown Gardens and the Lake Wakatipu waterfront','A scenic lake cruise','Arrowtown or a short viewpoint drive if the day suits'], photo:'https://images.unsplash.com/photo-1696060159045-69025bb6ddfb?auto=format&fit=crop&fm=jpg&ixlib=rb-4.0.3&q=75&w=1200', photoAlt:'Queenstown and Lake Wakatipu surrounded by mountains', credit:'Unsplash · Declan Chidlow', creditUrl:'https://unsplash.com/photos/an-aerial-view-of-a-city-and-a-lake-surrounded-by-mountains-25_SzQ5zeEQ'},
+  {name:'Te Anau', xy:[167.718,-45.4167], dx:-12, dy:15, anchor:'end', dateRange:'Fri 12 – Sun 14 Mar', nights:'2 nights', detail:'A gentle base for Fiordland, with the option of a Milford Sound day trip if you are comfortable with a long outing.', sights:['Te Anau lakefront and bird sanctuary','A Fiordland cruise or visitor centre','Milford Sound as a full-day outing'], photo:'https://images.unsplash.com/photo-1693886225430-e2d74412fc66?auto=format&fit=crop&fm=jpg&ixlib=rb-4.0.3&q=75&w=1200', photoAlt:'A quiet bench overlooking Lake Te Anau and the mountains', credit:'Unsplash · Richard Lin', creditUrl:'https://unsplash.com/photos/a-lake-with-mountains-in-the-background-and-a-bench-in-the-foreground-Yii_mO1FhAY'},
+  {name:'Queenstown', xy:[168.6626,-45.0312], dx:12, dy:3, anchor:'start', dateRange:'Sun 14 – Mon 15 Mar', nights:'1 night', detail:'Return to Queenstown from Te Anau on Sunday for an easier departure day and your direct flight to Australia on Monday, 15 March.', sights:['Keep the last day light','Return the rental car at the airport','Allow time for check-in with your toddler'], photo:'https://images.unsplash.com/photo-1696060159045-69025bb6ddfb?auto=format&fit=crop&fm=jpg&ixlib=rb-4.0.3&q=75&w=1200', photoAlt:'Queenstown and Lake Wakatipu surrounded by mountains', credit:'Unsplash · Declan Chidlow', creditUrl:'https://unsplash.com/photos/an-aerial-view-of-a-city-and-a-lake-surrounded-by-mountains-25_SzQ5zeEQ'}
+];
+const points = stops.map(stop => projection(stop.xy));
+add('polyline', { points: points.map(point => point.join(',')).join(' '), class: 'route' });
+const legDistances = [250, 135, 168, 145, 205, 105, 256, 171, 171];
+const list = document.querySelector('.stop-list');
+const detail = document.getElementById('stop-details');
+function selectStop(index) {
+  const stop = stops[index];
+  list.querySelectorAll('button').forEach((button, buttonIndex) => button.setAttribute('aria-pressed', String(buttonIndex === index)));
+  detail.innerHTML = `<div><h2>${index + 1}. ${stop.name} · ${stop.dateRange} · ${stop.nights}</h2><p>${stop.detail}</p><ul>${stop.sights.map(sight => `<li>${sight}</li>`).join('')}</ul></div><div><img class="photo" src="${stop.photo}" alt="${stop.photoAlt}" loading="lazy"><p class="credit">Photo: <a href="${stop.creditUrl}" target="_blank" rel="noopener noreferrer">${stop.credit}</a></p></div>`;
+  const image = detail.querySelector('img');
+  image.addEventListener('error', () => { image.alt = `${stop.photoAlt} (photo unavailable; open the credit link to view it)`; image.removeAttribute('src'); });
+}
+for (const [index, stop] of stops.entries()) {
+  const [x, y] = points[index];
+  const m
