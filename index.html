@@ -136,4 +136,49 @@ function selectStop(index) {
 }
 for (const [index, stop] of stops.entries()) {
   const [x, y] = points[index];
-  const m
+  const markerX = index === 7 ? x - 10 : index === 9 ? x + 10 : x;
+  const marker = add('a', { href: '#stop-details', class: 'map-stop', 'aria-label': `Show stop ${index + 1}: ${stop.name}` });
+  marker.addEventListener('click', event => { event.preventDefault(); selectStop(index); });
+  add('circle', { cx: markerX, cy: y, r: 9, class: 'stop' }, marker);
+  const number = add('text', { x: markerX, y: y + 4, class: 'stop-number' }, marker);
+  number.textContent = String(index + 1);
+  if (index !== 9) {
+    const labelX = index === 7 ? x + 30 : x + stop.dx;
+    const label = add('text', { x: labelX, y: y + stop.dy, class: 'label', 'text-anchor': stop.anchor }, marker);
+    label.textContent = stop.name;
+  }
+  const button = document.createElement('button');
+  button.type = 'button';
+  const label = document.createElement('span');
+  label.textContent = `${index + 1}. ${stop.name} · ${stop.nights}`;
+  const dates = document.createElement('span');
+  dates.className = 'stop-date';
+  dates.textContent = stop.dateRange;
+  button.append(label, dates);
+  button.setAttribute('aria-pressed', 'false');
+  button.addEventListener('click', () => selectStop(index));
+  list.appendChild(button);
+}
+const island = add('text', { x: projection([170.7, -45.7])[0], y: projection([170.7, -45.7])[1], class: 'island-label', 'text-anchor': 'middle' });
+island.textContent = 'SOUTH ISLAND';
+for (let index = 0; index < points.length - 1; index++) {
+  // The final leg retraces Queenstown–Te Anau, so label that shared road once.
+  if (index === points.length - 2) continue;
+  const [x1, y1] = points[index], [x2, y2] = points[index + 1];
+  const dx = x2 - x1, dy = y2 - y1;
+  const length = Math.hypot(dx, dy) || 1;
+  const offset = index === 7 ? 18 : 13;
+  const x = (x1 + x2) / 2 + (-dy / length) * offset;
+  const y = (y1 + y2) / 2 + (dx / length) * offset;
+  const labelText = index === 7 ? `${legDistances[index]} km each way` : `${legDistances[index]} km`;
+  const group = add('g', { transform: `translate(${x},${y})`, 'aria-hidden': 'true' });
+  const label = add('text', { x: 0, y: 0, class: 'distance-label' }, group);
+  label.textContent = labelText;
+  const box = label.getBBox();
+  const background = add('rect', { x: box.x - 5, y: box.y - 2, width: box.width + 10, height: box.height + 4, rx: 7, class: 'distance-bg' }, group);
+  group.insertBefore(background, label);
+}
+selectStop(0);
+</script>
+</body>
+</html>
