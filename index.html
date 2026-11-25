@@ -172,7 +172,7 @@ for (let index = 0; index < points.length - 1; index++) {
   const offset = index === 7 ? 18 : 13;
   const x = (x1 + x2) / 2 + (-dy / length) * offset;
   const y = (y1 + y2) / 2 + (dx / length) * offset;
-  const labelAdjustments = [[0, 0], [0, 0], [0, 0], [-12, 0], [-40, -45], [40, -2], [40, 5], [-25, 0]];
+  const labelAdjustments = [[0, 0], [0, 0], [0, 0], [-12, 0], [-40, -45], [40, -2], [40, 5], [-50, 0]];
   const [adjustX, adjustY] = labelAdjustments[index];
   const group = add('g', { transform: `translate(${x + adjustX},${y + adjustY})`, 'aria-hidden': 'true' });
   const label = add('text', { x: 0, y: 0, class: 'distance-label' }, group);
