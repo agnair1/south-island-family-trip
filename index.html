@@ -27,7 +27,7 @@
     .stop { fill: #187b83; stroke: #fff; stroke-width: 2.5; }
     .stop-number { fill: #fff; font: 600 11px system-ui, sans-serif; text-anchor: middle; pointer-events: none; }
     .label { fill: #20303a; font: 600 13px system-ui, sans-serif; paint-order: stroke; stroke: #f7f8f6; stroke-width: 4px; stroke-linejoin: round; }
-    .distance-label { fill: #20303a; font: 600 11px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+    .distance-label { fill: #20303a; font: 600 10px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
     .distance-bg { fill: #fff; stroke: #187b83; stroke-width: 1; }
     .island-label { fill: #64756f; font: 500 12px system-ui, sans-serif; letter-spacing: .08em; }
     .map-stop:focus .stop { stroke: #f3a63b; stroke-width: 4; }
@@ -172,12 +172,14 @@ for (let index = 0; index < points.length - 1; index++) {
   const offset = index === 7 ? 18 : 13;
   const x = (x1 + x2) / 2 + (-dy / length) * offset;
   const y = (y1 + y2) / 2 + (dx / length) * offset;
-  const labelText = index === 7
-    ? `${legDistances[index]} km each way (~${legDriveTimes[index]} each way)`
-    : `${legDistances[index]} km (~${legDriveTimes[index]})`;
-  const group = add('g', { transform: `translate(${x},${y})`, 'aria-hidden': 'true' });
+  const labelAdjustments = [[0, 0], [0, 0], [0, 0], [-12, 0], [12, 4], [40, -2], [0, 30], [0, 0]];
+  const [adjustX, adjustY] = labelAdjustments[index];
+  const group = add('g', { transform: `translate(${x + adjustX},${y + adjustY})`, 'aria-hidden': 'true' });
   const label = add('text', { x: 0, y: 0, class: 'distance-label' }, group);
-  label.textContent = labelText;
+  const distanceLine = add('tspan', { x: 0, dy: '-0.25em' }, label);
+  distanceLine.textContent = `${legDistances[index]} km`;
+  const timeLine = add('tspan', { x: 0, dy: '1.25em' }, label);
+  timeLine.textContent = index === 7 ? `(~${legDriveTimes[index]} each way)` : `(~${legDriveTimes[index]})`;
   const box = label.getBBox();
   const background = add('rect', { x: box.x - 5, y: box.y - 2, width: box.width + 10, height: box.height + 4, rx: 7, class: 'distance-bg' }, group);
   group.insertBefore(background, label);
